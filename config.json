@@ -1,0 +1,6 @@
+{
+    "params":{
+        "local_url":"mysql://root:@localhost/sketch_db",
+        "prod_url": "mysql://root:@localhost/sketch_db"
+    }
+}
