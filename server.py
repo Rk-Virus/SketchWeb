@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask import request
@@ -18,7 +18,7 @@ app.config.update(
     MAIL_USERNAME = 'ex@gmail.com',
     MAIL_PASSWORD = 'exPass'
 )
-#creating mail
+# creating mail
 mail = Mail(app)
 
 # configure the SQLite database, relative to the app instance folder
@@ -34,25 +34,32 @@ class Contact(db.Model):
     subject = db.Column(db.String, nullable=True)
     message = db.Column(db.String, nullable=False)
 
+class Gallery(db.Model):
+    id = db.Column(db.Integer, unique=True, primary_key=True)
+    title = db.Column(db.String, unique=False, nullable=False)
+    slug = db.Column(db.String, unique=True, nullable=False)
+    content = db.Column(db.String, nullable=False)
+
+
+# routes 
 @app.route("/")
 def home():
-    flash("This site is under construction...")
-    return render_template('index.html')
+    galleries = Gallery.query.filter_by().all()
+    return render_template('index.html', galleries=galleries)
 
 @app.route("/about")
 def about():
-    return render_template('about.html')
-
-@app.route("/gallery")
-def gallery():
-    return render_template('gallery.html')
+    galleries = Gallery.query.filter_by().all()
+    return render_template('about.html', galleries=galleries)
 
 @app.route("/services")
 def services():
-    return render_template('services.html')
+    galleries = Gallery.query.filter_by().all()
+    return render_template('services.html', galleries=galleries)
 
 @app.route("/contact", methods=['GET', 'POST'])
 def contact():
+    galleries = Gallery.query.filter_by().all()
     if request.method == 'POST':
         '''fetching contact details'''
         name = request.form.get('name')
@@ -67,12 +74,15 @@ def contact():
         db.session.commit()
 
         #sending mail
-        mail.send_message(f'New message from @{name}SketchWeb', sender=email, recepients=['ex@gmail.com'], body= message)
-    return render_template('contact.html')
+        # mail.send_message(f'New message from @{name}SketchWeb', sender=email, recepients=['ex@gmail.com'], body= message)
+    return render_template('contact.html', galleries=galleries)
 
-@app.route("/gallery-single")
-def gallerySingle():
-    return render_template('gallery-single.html')
+@app.route("/gallery/<string:slug>", methods=['GET'])
+def gallery(slug):
+    galleries = Gallery.query.filter_by().all()
+    gallery = Gallery.query.filter_by(slug=slug).first()
+    print(gallery.title)
+    return render_template('gallery.html', gallery=gallery, galleries=galleries)
 
 
 app.run(debug=True)

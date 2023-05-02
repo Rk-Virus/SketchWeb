@@ -51,13 +51,13 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a href="/" class="active">Home</a></li>
+          <li><a href="/">Home</a></li>
           <li><a href="/about">About</a></li>
-          <li class="dropdown"><a href="/gallery"><span>Gallery</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+          <li class="dropdown"><a href="#"><span>Galleries</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
             <ul>
-              <li><a href="/gallery-single">Nature</a></li>
-              <li><a href="/gallery-single">People</a></li>
-              <li><a href="/gallery-single">Architecture</a></li>
+              {% for gallery in galleries %}
+                <li><a href="/gallery/{{gallery.slug}}">{{gallery.title}}</a></li>
+              {% endfor %}
             </ul>
           </li>
           <li><a href="/services">Services</a></li>
