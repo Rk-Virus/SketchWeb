@@ -1,6 +1,11 @@
 {
     "params":{
         "local_url":"mysql://root:@localhost/sketch_db",
-        "prod_url": "mysql://root:@localhost/sketch_db"
+        "prod_url": "mysql://root:@localhost/sketch_db",
+        "admin_name" : "root",
+        "email" : "root@gmail.com",
+        "password": "root",
+
+        "secretKey": "super-secret-key"
     }
 }

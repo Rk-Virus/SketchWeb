@@ -1,7 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
-from flask import request
 import json
 
 with open('config.json', 'r') as conf:
@@ -11,6 +10,10 @@ with open('config.json', 'r') as conf:
 db = SQLAlchemy()
 # create the app
 app = Flask(__name__)
+# Quick test configuration. Please use proper Flask configuration options
+# in production settings, and use a separate file or environment variables
+# to manage the secret key!
+app.secret_key = params['secretKey']
 
 app.config.update(
     MAIL_SERVER = 'smtp.gmail.com',
@@ -83,6 +86,21 @@ def gallery(slug):
     gallery = Gallery.query.filter_by(slug=slug).first()
     print(gallery.title)
     return render_template('gallery.html', gallery=gallery, galleries=galleries)
+
+@app.route("/admin", methods=['GET', 'POST'])
+def dashboard():
+    if 'user' in session and session['user'] == params['admin_name']:
+        return render_template('dashboard.html')
+    if request.method == 'POST':
+        user = request.form.get('UserName')
+        password = request.form.get('password')
+
+        if user == params['admin_name'] and password == params['password']:
+            session['user'] = user
+            return render_template('dashboard.html')
+
+    
+    return render_template("login.html")
 
 
 app.run(debug=True)

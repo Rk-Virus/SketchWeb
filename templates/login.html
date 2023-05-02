@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<main id="main" data-aos="fade" data-aos-delay="1500">
+
+    <!-- ======= End Page Header ======= -->
+    <div class="page-header d-flex align-items-center">
+      <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-6 text-center">
+            <h2>Sample Inner Page</h2>
+            <p>Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
+
+            <a class="cta-btn" href="contact.html">Available for hire</a>
+
+          </div>
+        </div>
+      </div>
+    </div><!-- End Page Header -->
+
+    <section class="sample-page">
+      <div class="container" data-aos="fade-up">
+
+        <form action="/admin" method="POST" class="mt-5 ">
+          <div class="form-group">
+            <label for="exampleInputEmail1">User name</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" name="UserName"       aria-describedby="UserNameHelp" placeholder="Enter UserName">
+            <small id="UserNameHelp" class="form-text text-muted">We'll never share your UserName with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
+          </div>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+{% endblock body %}
