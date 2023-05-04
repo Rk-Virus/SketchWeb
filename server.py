@@ -111,8 +111,22 @@ def editGallery(slug):
         gallery.content = request.form.get("content")
         db.session.commit()
         return redirect("/admin")
-
-
+    
     return render_template('editGallery.html',gallery=gallery)
+
+
+@app.route("/logout")
+def logout():
+    session.pop("user")
+    return redirect("/admin")
+
+@app.route("/delete/<string:slug>")
+def delete(slug):
+    if 'user' in session and session['user'] == params['admin_name']:
+        gallery = Gallery.query.filter_by(slug=slug).first()
+        db.session.delete(gallery)
+        db.session.commit()
+
+    return redirect("/admin")
 
 app.run(debug=True)

@@ -35,7 +35,8 @@
               <th scope="row">{{gallery.id}}</th>
               <td>{{gallery.title}}</td>
               <td>{{gallery.content}}</td>
-              <td><a href="/edit/{{gallery.slug}}"><button class="btn btn-primary m-2">Edit</button></a><button class="btn btn-danger m-2">Delete</button></td>
+              <td><a href="/edit/{{gallery.slug}}"><button class="btn btn-primary m-2">Edit</button></a>
+                <a href="/delete/{{gallery.slug}}"><button class="btn btn-danger m-2">Delete</button></a></td>
             </tr>
             {% endfor %}
           </tbody>
