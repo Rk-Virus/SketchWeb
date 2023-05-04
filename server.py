@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 import json
@@ -84,23 +84,35 @@ def contact():
 def gallery(slug):
     galleries = Gallery.query.filter_by().all()
     gallery = Gallery.query.filter_by(slug=slug).first()
-    print(gallery.title)
     return render_template('gallery.html', gallery=gallery, galleries=galleries)
 
 @app.route("/admin", methods=['GET', 'POST'])
 def dashboard():
+    galleries = Gallery.query.filter_by().all()
+    contacts = Contact.query.filter_by().all()
     if 'user' in session and session['user'] == params['admin_name']:
-        return render_template('dashboard.html')
-    if request.method == 'POST':
+        return render_template('dashboard.html', galleries=galleries, contacts=contacts)
+    elif request.method == 'POST':
         user = request.form.get('UserName')
         password = request.form.get('password')
 
         if user == params['admin_name'] and password == params['password']:
             session['user'] = user
-            return render_template('dashboard.html')
+            return redirect("/admin")
 
-    
-    return render_template("login.html")
+    return render_template("login.html", galleries=galleries)
 
+
+@app.route("/edit/<string:slug>", methods=['GET','POST'])
+def editGallery(slug):
+    gallery = Gallery.query.filter_by(slug=slug).first()
+    if request.method == 'POST':
+        gallery.title = request.form.get("title")
+        gallery.content = request.form.get("content")
+        db.session.commit()
+        return redirect("/admin")
+
+
+    return render_template('editGallery.html',gallery=gallery)
 
 app.run(debug=True)

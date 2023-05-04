@@ -19,9 +19,56 @@
     <section class="sample-page">
       <div class="container" data-aos="fade-up">
 
-        <p>
-          Page under construction...
-        </p>
+        <h2>All Galleries</h2>
+        <table class="table text-white">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Title</th>
+              <th scope="col">Content</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for gallery in galleries %}
+            <tr>
+              <th scope="row">{{gallery.id}}</th>
+              <td>{{gallery.title}}</td>
+              <td>{{gallery.content}}</td>
+              <td><a href="/edit/{{gallery.slug}}"><button class="btn btn-primary m-2">Edit</button></a><button class="btn btn-danger m-2">Delete</button></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <h2>All Contacts</h2>
+        <table class="table text-white">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Subject</th>
+              <th scope="col">Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for contact in contacts %}
+            <tr>
+              <th scope="row">{{contact.id}}</th>
+              <td>{{contact.name}}</td>
+              <td><a href="mailto:{{contact.email}}">{{contact.email}}</a></td>
+              <td>{{contact.subject}}</td>
+              <td>{{contact.message}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
 
       </div>
     </section>
