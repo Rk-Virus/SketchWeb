@@ -2,9 +2,7 @@ from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 import json
-
-with open('config.json', 'r') as conf:
-    params = json.load(conf)['params']
+import os
 
 # create the extension
 db = SQLAlchemy()
@@ -13,19 +11,20 @@ app = Flask(__name__)
 # Quick test configuration. Please use proper Flask configuration options
 # in production settings, and use a separate file or environment variables
 # to manage the secret key!
-app.secret_key = params['secretKey']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv("SQLALCHEMY_TRACK_MODIFICATIONS") == 'True'
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 app.config.update(
     MAIL_SERVER = 'smtp.gmail.com',
     MAIL_PORT = '465',
-    MAIL_USERNAME = 'ex@gmail.com',
-    MAIL_PASSWORD = 'exPass'
+    MAIL_USERNAME = os.getenv('EMAIL'),
+    MAIL_PASSWORD = os.getenv('PASSWORD')
 )
 # creating mail
 mail = Mail(app)
 
 # configure the SQLite database, relative to the app instance folder
-app.config["SQLALCHEMY_DATABASE_URI"] = params['local_url']
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
 # initialize the app with the extension
 db.init_app(app)
 
@@ -90,13 +89,13 @@ def gallery(slug):
 def dashboard():
     galleries = Gallery.query.filter_by().all()
     contacts = Contact.query.filter_by().all()
-    if 'user' in session and session['user'] == params['admin_name']:
+    if 'user' in session and session['user'] == os.getenv('ADMIN_NAME'):
         return render_template('dashboard.html', galleries=galleries, contacts=contacts)
     elif request.method == 'POST':
         user = request.form.get('UserName')
         password = request.form.get('password')
 
-        if user == params['admin_name'] and password == params['password']:
+        if user == os.getenv('ADMIN_NAME') and password == os.getenv('PASSWORD'):
             session['user'] = user
             return redirect("/admin")
 
@@ -122,11 +121,15 @@ def logout():
 
 @app.route("/delete/<string:slug>")
 def delete(slug):
-    if 'user' in session and session['user'] == params['admin_name']:
+    if 'user' in session and session['user'] == os.getenv('ADMIN_NAME'):
         gallery = Gallery.query.filter_by(slug=slug).first()
         db.session.delete(gallery)
         db.session.commit()
 
     return redirect("/admin")
 
-app.run(debug=True)
+with app.app_context():
+        db.create_all()
+
+if __name__ == "__main__":
+    app.run()

@@ -1,3 +1,5 @@
 #not important to add on git
 /venv
 Commands.txt
+.env
+config.json
