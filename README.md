@@ -5,6 +5,10 @@ Live: [https://sketchweb.onrender.com](https://sketchweb.onrender.com)
 
 ---
 
+> ![sketch web](https://github.com/user-attachments/assets/f011fc81-8ee8-4297-8bc4-e5e66494b8c1)
+
+---
+
 ## 🚀 Features
 
 - 🖼️ Gallery view with dynamic content
@@ -65,11 +69,6 @@ flask run
 
 ---
 
-## 📸 Screenshot
-
-> ![sketch web](https://github.com/user-attachments/assets/f011fc81-8ee8-4297-8bc4-e5e66494b8c1)
-
----
 
 ## 📝 License
 
